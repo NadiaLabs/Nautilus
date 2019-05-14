@@ -1,0 +1,37 @@
+{
+    "directories": ["src/"],
+    "finder": [
+        {
+            "name": "*.php",
+            "exclude": [
+                ".gitignore",
+                ".md",
+                "phpunit",
+                "Tester",
+                "Tests",
+                "tests",
+                "test",
+                "yaml",
+                "demo"
+            ],
+            "in": "vendor"
+        },
+        {
+            "name": "*",
+            "in": "vendor/scrivo/highlight.php/Highlight/languages"
+        },
+        {
+            "name": "*",
+            "in": "themes"
+        }
+    ],
+    "compactors": [
+        "Herrera\\Box\\Compactor\\Json",
+        "Herrera\\Box\\Compactor\\Php"
+    ],
+    "compression": "GZ",
+    "main": "bin/nautilus",
+    "output": "nautilus.phar",
+    "stub": true,
+    "chmod": "0755"
+}
