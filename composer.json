@@ -1,0 +1,19 @@
+{
+    "name": "nadialabs/nautilus",
+    "description": "Yet Another Document Generator",
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "php": ">=5.3.9",
+        "ext-json": "*",
+        "ext-fileinfo": "*",
+        "michelf/php-markdown": "^1.8",
+        "scrivo/highlight.php": "^9.15",
+        "symfony/console": "^2.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "Nautilus\\": "src/"
+        }
+    }
+}
