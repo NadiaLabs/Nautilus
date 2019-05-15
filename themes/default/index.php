@@ -7,8 +7,7 @@
     <title><?php echo $entry['title']; ?></title>
 
     <style type="text/css">
-        <?php echo file_get_contents(__DIR__.'/bootstrap.min.css'); ?>
-        <?php echo file_get_contents(__DIR__.'/monokai-sublime.css'); ?>
+        <?php echo file_get_contents(__DIR__.'/build/index.css'); ?>
 
         body {
             font-family: "PT Serif","Georgia","Helvetica Neue",Arial,"Microsoft JhengHei",sans-serif;

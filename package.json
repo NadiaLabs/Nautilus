@@ -1,0 +1,16 @@
+{
+    "dependencies": {
+        "highlightjs": "^9.12",
+        "bootstrap": "^4.3"
+    },
+    "devDependencies": {
+        "@symfony/webpack-encore": "^0.27",
+        "node-sass": "^4.12",
+        "sass-loader": "^7.1",
+        "webpack-notifier": "^1.6"
+    },
+    "license": "MIT",
+    "scripts": {
+        "build": "encore production"
+    }
+}
