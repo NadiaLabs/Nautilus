@@ -15,7 +15,7 @@
         }
 
         #document-summary {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             right: 0;
@@ -49,12 +49,7 @@
         }
 
         #document-body {
-            position: absolute;
-            top: 0;
-            left: 300px;
-            bottom: 0;
-            right: 0;
-            overflow-y: auto;
+            margin-left: 300px;
         }
 
         .document-contents {
@@ -229,7 +224,7 @@
         onScrollSmoothly = true;
         element.setAttribute('data-scroll-smoothly-target', '1');
 
-        documentBody.scrollBy({top: targetTop, left: 0, behavior: 'smooth'});
+        window.scrollBy({top: targetTop, left: 0, behavior: 'smooth'});
     }
 
     navLinks.forEach(function(navLink) {
@@ -244,9 +239,9 @@
         });
     });
 
-    documentBody.addEventListener('scroll', function() {
+    window.addEventListener('scroll', function() {
         var header = null;
-        var scrollTop = this.scrollTop;
+        var scrollTop = window.scrollY;
 
         for (var i in documentHeaders) {
             if (documentHeaders.hasOwnProperty(i)) {
