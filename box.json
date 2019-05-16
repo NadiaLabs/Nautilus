@@ -10,9 +10,11 @@
                 "Tester",
                 "Tests",
                 "tests",
+                "Test",
                 "test",
                 "yaml",
-                "demo"
+                "demo",
+                "tools"
             ],
             "in": "vendor"
         },
