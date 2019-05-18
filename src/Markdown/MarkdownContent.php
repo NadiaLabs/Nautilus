@@ -26,20 +26,20 @@ class MarkdownContent
     /**
      * @var array
      */
-    protected $documentConfig = array();
+    protected $chapterConfig = array();
 
     /**
      * Markdown constructor.
      *
      * @param string $body           Transformed Markdown HTML
-     * @param array  $outlines       Document outlines
-     * @param array  $documentConfig Document configuration
+     * @param array  $outlines       Chapter outlines
+     * @param array  $chapterConfig  Chapter configuration
      */
-    public function __construct($body, array $outlines, array $documentConfig)
+    public function __construct($body, array $outlines, array $chapterConfig)
     {
         $this->body = $body;
         $this->outlines = $outlines;
-        $this->documentConfig = $documentConfig;
+        $this->chapterConfig = $chapterConfig;
     }
 
     /**
@@ -65,10 +65,30 @@ class MarkdownContent
     }
 
     /**
-     * @return array
+     * @return array Format: <code><pre>[
+     *   'title' => 'Chapter 1: Introduction',
+     *   'filePath' => 'chapters/chapter01.md',
+     *   'parameters' => []
+     * ]</pre></code>
      */
-    public function getDocumentConfig()
+    public function getChapterConfig()
     {
-        return $this->documentConfig;
+        return $this->chapterConfig;
+    }
+
+    /**
+     * @return string
+     */
+    public function getChapterHeaderId()
+    {
+        return 'header-'.md5($this->chapterConfig['title']);
+    }
+
+    /**
+     * @return string
+     */
+    public function getChapterTitle()
+    {
+        return $this->chapterConfig['title'];
     }
 }

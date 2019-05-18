@@ -4,7 +4,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title><?php echo $entry['title']; ?></title>
+    <title><?php echo $documentConfig['title']; ?></title>
 
     <style type="text/css">
         <?php echo file_get_contents(__DIR__.'/build/index.css'); ?>
@@ -113,14 +113,18 @@
     <div id="document-summary">
         <div class="document-summary-header">
             <div class="document-summary-title">
-                <a href=""><?php echo $entry['title']; ?></a>
+                <a href=""><?php echo $documentConfig['title']; ?></a>
             </div>
+            <?php if (!empty($parameters['version'])) : ?>
             <div>
                 <small>Version: <?php echo $parameters['version']; ?></small>
             </div>
+            <?php endif; ?>
+            <?php if (!empty($parameters['updateAt'])) : ?>
             <div>
                 <small>Updated At: <?php echo $parameters['updateAt']; ?></small>
             </div>
+            <?php endif; ?>
         </div>
 
         <hr>
@@ -142,14 +146,12 @@
                 }
 
                 $activeClass = $postIndex === 0 ? 'active' : '';
-                $documentConfig = $post->getDocumentConfig();
-                $documentTitle = $documentConfig['title'];
         ?>
             <li class="nav-item">
-                <a href="#post-<?php echo md5($documentTitle); ?>"
+                <a href="#<?php echo $post->getChapterHeaderId(); ?>"
                    class="nav-link <?php echo $activeClass; ?>"
-                   id="nav-link-post-<?php echo md5($documentTitle); ?>">
-                    <?php echo $documentTitle; ?>
+                   id="nav-link-<?php echo $post->getChapterHeaderId(); ?>">
+                    <?php echo $post->getChapterTitle(); ?>
                 </a>
             </li>
             <?php foreach ($post->getOutlines() as $outline): ?>
@@ -166,14 +168,10 @@
     </div>
     <div id="document-body">
         <div class="document-contents">
-        <?php
-            foreach ($posts as $post): /** @var \Nautilus\Markdown\MarkdownContent $post */
-                $documentConfig = $post->getDocumentConfig();
-                $documentTitle = $documentConfig['title'];
-        ?>
+        <?php foreach ($posts as $post): /** @var \Nautilus\Markdown\MarkdownContent $post */ ?>
             <div class="document-content">
-                <h1 class="document-content-header" id="post-<?php echo md5($documentTitle); ?>">
-                    <?php echo $documentTitle; ?>
+                <h1 class="document-content-header" id="<?php echo $post->getChapterHeaderId(); ?>">
+                    <?php echo $post->getChapterTitle(); ?>
                 </h1>
 
                 <div class="document-content-body">
@@ -190,6 +188,7 @@
     var navLinks = document.querySelectorAll('.document-summary-indexes a.nav-link');
     var documentSummary = document.getElementById('document-summary');
     var documentBody = document.getElementById('document-body');
+    var links = document.querySelectorAll('.document-content a');
     var documentHeaders = documentBody.querySelectorAll('h1, h2, h3, h4, h5, h6');
     var onScrollSmoothly = false;
     var halfHeightOfDocumentSummary = parseInt(documentSummary.clientHeight / 2);
@@ -206,12 +205,9 @@
     }
 
     /**
-     * @param {Event}   event
      * @param {Element} element
      */
-    function scrollSmoothly(event, element) {
-        event.preventDefault();
-
+    function scrollSmoothly(element) {
         var target = document.querySelector(element.getAttribute('href'));
 
         if (!target) {
@@ -228,13 +224,31 @@
 
     navLinks.forEach(function(navLink) {
         navLink.addEventListener('click', function(event) {
+            event.preventDefault();
+            scrollSmoothly(this);
+
             navLinks.forEach(function(navLink) {
                 navLink.classList.remove('active');
             });
 
             this.classList.add('active');
+        });
+    });
 
-            scrollSmoothly(event, this);
+    links.forEach(function(link) {
+        link.addEventListener('click', function(event) {
+            var href = this.getAttribute('href');
+
+            if (0 === href.indexOf('#')) {
+                event.preventDefault();
+
+                var id = href.substr(1);
+                var navLink = document.getElementById('nav-link-'+id);
+
+                if (navLink) {
+                    navLink.click();
+                }
+            }
         });
     });
 
@@ -248,7 +262,7 @@
                     header = documentHeaders[i];
                     break;
                 }
-                if (documentHeaders[i].offsetTop - scrollTop >= 20) {
+                if (documentHeaders[i].offsetTop - scrollTop > 20) {
                     break;
                 }
 

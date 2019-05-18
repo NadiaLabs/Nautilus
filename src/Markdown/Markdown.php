@@ -18,10 +18,10 @@ use Michelf\MarkdownExtra;
  */
 class Markdown extends MarkdownExtra
 {
-    const ENABLE_PHP_EVAL = 'enable_php_eval';
-    const WORKING_DIR = 'working_dir';
-    const TABLE_CLASSES = 'table_classes';
-    const THEAD_CLASSES = 'thead_classes';
+    const ENABLE_PHP_EVAL = 'enablePhpEval';
+    const WORKING_DIR = 'workingDir';
+    const TABLE_CLASSES = 'tableClasses';
+    const THEAD_CLASSES = 'theadClasses';
 
     public $table_align_class_tmpl = 'text-%%';
 
@@ -69,28 +69,26 @@ class Markdown extends MarkdownExtra
         }
 
         $this->code_block_content_func = array($this, 'parseCodeBlockContent');
-        $this->header_id_func = array($this, 'generateHeaderId');
-
         $this->phpRenderer = new PhpRenderer();
     }
 
     /**
      * Transform with parameters
      *
-     * @param string $id             The Document ID
-     * @param string $text           Markdown content
-     * @param array  $documentConfig Document configuration
-     * @param array  $parameters     Document parameters
+     * @param string $id            The Document ID
+     * @param string $text          Markdown content
+     * @param array  $chapterConfig Chapter configuration
+     * @param array  $parameters    Document parameters
      *
      * @return string
      */
-    public function transform2($id, $text, array $documentConfig, array $parameters = array())
+    public function transform2($id, $text, array $chapterConfig, array $parameters = array())
     {
         $this->id = $id;
         $this->parameters = $parameters;
 
         $body = parent::transform($text);
-        $return = new MarkdownContent($body, $this->outlines, $documentConfig);
+        $return = new MarkdownContent($body, $this->outlines, $chapterConfig);
 
         $this->id = null;
         $this->parameters = array();
@@ -131,16 +129,6 @@ class Markdown extends MarkdownExtra
         }
 
         return $this->hashBlock($code);
-    }
-
-    /**
-     * @param string $headerValue
-     *
-     * @return string
-     */
-    public function generateHeaderId($headerValue)
-    {
-        return 'header-'.md5($headerValue);
     }
 
     /**
@@ -269,17 +257,26 @@ class Markdown extends MarkdownExtra
         // Avoid duplicated id
         do {
             $text = $this->id.$text.str_repeat('-', $idDuplicatedCount++);
-            $defaultId = is_callable($this->header_id_func) ? call_user_func($this->header_id_func, $text) : null;
+            $defaultId = 'header-'.md5($text);
         } while (isset($this->idList[$defaultId]));
 
         $this->idList[$defaultId] = 1;
 
         $attr = $this->doExtraAttributes("h$level", $dummy =& $matches[3], $defaultId);
+        $id = (string) $defaultId;
+
+        if (preg_match('/id="(.*?)"/', $attr, $attrMatches)) {
+            if (!empty($attrMatches[1])) {
+                $id = $attrMatches[1];
+            }
+        }
+
         $headerHtml = $this->runSpanGamut($matches[2]);
         $block = "<h$level$attr>".$headerHtml."</h$level>";
 
+
         // Add outline
-        $this->outlines[] = array('id' => (string) $defaultId, 'level' => $level, 'html' => $headerHtml);
+        $this->outlines[] = array('id' => $id, 'level' => $level, 'html' => $headerHtml);
 
         return "\n" . $this->hashBlock($block) . "\n\n";
     }
@@ -296,6 +293,7 @@ class Markdown extends MarkdownExtra
         $attr  = $this->doExtraAttributes("img", $dummy =& $matches[8]);
 
         $alt_text = $this->encodeAttribute($alt_text);
+        // Encode image to base64 encoded string
         $url = $this->encodeImageToBase64($url);
         $url = $this->encodeURLAttribute($url);
         $result = "<img src=\"$url\" alt=\"$alt_text\"";
