@@ -233,14 +233,15 @@ class Markdown extends MarkdownExtra
     {
         switch ($token{0}) {
             case '@':
-                if (preg_match('/^(.*?[^@])'.preg_quote($token).'(?!@)(.*)$/sm', $str, $matches)
-                    && $this->options[self::ENABLE_PHP_EVAL])
-                {
+                if (preg_match('/^(.*?[^@])'.preg_quote($token).'(?!@)(.*)$/sm', $str, $matches)) {
                     $str = $matches[2];
-                    $code = trim($matches[1]);
-                    $content = $this->evalPhpCode($code);
 
-                    return $this->hashPart($content);
+                    if ($this->options[self::ENABLE_PHP_EVAL]) {
+                        $code = trim($matches[1]);
+                        $content = $this->evalPhpCode($code);
+
+                        return $this->hashPart($content);
+                    }
                 }
         }
 
