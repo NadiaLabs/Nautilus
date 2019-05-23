@@ -1,7 +1,8 @@
 {
     "dependencies": {
+        "bootstrap": "^4.3",
         "highlightjs": "^9.12",
-        "bootstrap": "^4.3"
+        "tar": "^4.4"
     },
     "devDependencies": {
         "@symfony/webpack-encore": "^0.27",
@@ -11,6 +12,7 @@
     },
     "license": "MIT",
     "scripts": {
-        "build": "encore production"
+        "build": "encore production",
+        "dev": "encore dev"
     }
 }
