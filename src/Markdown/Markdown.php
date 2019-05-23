@@ -181,6 +181,8 @@ class Markdown extends MarkdownExtra
 				|
 					(?<!@\\\\])
 					@+						# eval php script
+				|
+				    \{c:[^\}]+\}            # colorize span text
 			'.( $this->no_markup ? '' : '
 				|
 					<!--    .*?     -->		# comment
@@ -240,6 +242,17 @@ class Markdown extends MarkdownExtra
 
                     return $this->hashPart($content);
                 }
+        }
+
+        if (preg_match('/\{c:([^\}]+)\}/', $token, $colorMatches)) {
+            $color = $colorMatches[1];
+
+            if (preg_match('/(.*?)\{\/c\}(.*)/', $str, $colorTextMatches)) {
+                $colorText = $colorTextMatches[1];
+                $str = $colorTextMatches[2];
+
+                return $this->hashPart('<span style="color:'.$color.';">'.$colorText.'</span>');
+            }
         }
 
         return parent::handleSpanToken($token, $str);
