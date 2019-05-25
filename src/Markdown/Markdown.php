@@ -87,7 +87,12 @@ class Markdown extends MarkdownExtra
         $this->id = $id;
         $this->parameters = $parameters;
 
-        $body = parent::transform($text);
+        $body = $this->transform($text);
+
+        foreach ($this->outlines as &$outline) {
+            $outline['html'] = $this->transform($outline['html']);
+        }
+
         $return = new MarkdownContent($body, $this->outlines, $chapterConfig);
 
         $this->id = null;
@@ -290,7 +295,7 @@ class Markdown extends MarkdownExtra
 
 
         // Add outline
-        $this->outlines[] = array('id' => $id, 'level' => $level, 'html' => $headerHtml);
+        $this->outlines[] = array('id' => $id, 'level' => $level, 'html' => $matches[2]);
 
         return "\n" . $this->hashBlock($block) . "\n\n";
     }
