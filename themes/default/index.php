@@ -46,6 +46,9 @@
             background: #000;
             color: #FFF;
         }
+        .document-summary-indexes .nav-link p {
+            margin-bottom: 0;
+        }
 
         #document-body {
             margin-left: 300px;
