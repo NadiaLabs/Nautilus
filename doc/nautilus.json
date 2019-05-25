@@ -1,0 +1,37 @@
+{
+    "documents": [
+        {
+            "title": "Nautilus Document",
+            "outputFilePath": "output/index.html",
+            "theme": "default",
+            "parameters": {},
+            "markdownOptions": {
+                "tableClasses": "table table-bordered"
+            },
+            "chapters": [
+                {
+                    "title": "Introduction",
+                    "filePath": "chapters/00-introduction.md",
+                    "parameters": {}
+                },
+                {
+                    "title": "About nautilus.json",
+                    "filePath": "chapters/01-about-nautilus.json.md",
+                    "parameters": {}
+                },
+                {
+                    "title": "Console command",
+                    "filePath": "chapters/02-console-command.md",
+                    "parameters": {}
+                },
+                {
+                    "title": "Special Markups",
+                    "filePath": "chapters/03-special-markups.md",
+                    "parameters": {}
+                }
+            ]
+        }
+    ],
+    "parameters": {
+    }
+}
