@@ -9,7 +9,8 @@
         "ext-fileinfo": "*",
         "michelf/php-markdown": "^1.8",
         "scrivo/highlight.php": "^9.15",
-        "symfony/console": "^2.8"
+        "symfony/console": "^2.8",
+        "symfony/event-dispatcher": "^2.8"
     },
     "autoload": {
         "psr-4": {
