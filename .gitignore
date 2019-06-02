@@ -1,6 +1,5 @@
 /node_modules
 /vendor
-nautilus.phar
 /themes/default/build/entrypoints.json
 /themes/default/build/index.js
 /themes/default/build/manifest.json

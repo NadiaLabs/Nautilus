@@ -7,9 +7,12 @@ if (file_exists(__DIR__.'/../vendor/autoload.php')) {
     require __DIR__.'/../../../autoload.php';
 }
 
-$version = '1.0.0';
+$version = '1.1.0';
+
+$dispatcher = new Symfony\Component\EventDispatcher\EventDispatcher();
+$dispatcher->addSubscriber(new \Nautilus\CommandEventSubscriber());
 
 $application = new Nautilus\Application('Nautilus', $version);
-
+$application->setDispatcher($dispatcher);
 $application->add(new Nautilus\Command\GenerateCommand());
 $application->run();
