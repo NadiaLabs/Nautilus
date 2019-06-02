@@ -2,7 +2,7 @@
     "documents": [
         {
             "title": "Nautilus Document",
-            "outputFilePath": "output/index.html",
+            "outputFilePath": "index.html",
             "theme": "default",
             "parameters": {},
             "markdownOptions": {

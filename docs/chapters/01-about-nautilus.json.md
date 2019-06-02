@@ -41,7 +41,7 @@ This is a full example of `nautilus.json`:
 
 | key name   | required | description |
 | ---------- | -------- | ----------- |
-| documents  | Y        | Every document file configuration. |
+| documents  | Y        | The configuration of each document file. |
 | parameters | N        | The parameters using in markdown and themes (PHP templates). |
 
 #### `documents` configuration
