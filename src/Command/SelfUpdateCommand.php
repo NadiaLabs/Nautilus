@@ -58,7 +58,7 @@ class SelfUpdateCommand extends Command
             );
         }
 
-        $urlPrefix = rtrim($input->getOption('download-url-prefix'), '/ \t\n\r\0\x0B');
+        $urlPrefix = rtrim($input->getOption('download-url-prefix'), "/ \t\n\r\0\x0B");
         $versionUrl = $urlPrefix.'/nautilus-version';
         $pharUrl = $urlPrefix.'/nautilus.phar';
         $newFilename = $tmpDir . '/' . basename($localFilename, '.phar').'-temp.phar';
@@ -108,9 +108,9 @@ class SelfUpdateCommand extends Command
 
         rename($this->updatedFileInfo['newFilename'], $this->updatedFileInfo['localFilename']);
 
-        $this->updatedFileInfo = array();
-
         $this->getLogger($output)
             ->success('Updated to version '.$this->updatedFileInfo['newVersion'].' successfully!');
+
+        $this->updatedFileInfo = array();
     }
 }
