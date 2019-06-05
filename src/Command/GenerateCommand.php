@@ -44,7 +44,8 @@ class GenerateCommand extends Command
     {
         $this->setName('generate')
             ->setDescription('Generate documents')
-            ->addOption('enable-php-eval', 'e', InputOption::VALUE_NONE, 'Enable PHP eval function')
+            ->addOption('enable-php-eval', 'e', InputOption::VALUE_NONE, 'Enable PHP eval function.')
+            ->addOption('working-dir', 'w', InputOption::VALUE_OPTIONAL, 'The directory of document files.')
         ;
     }
 
@@ -53,12 +54,12 @@ class GenerateCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $cwd = getcwd();
-        $config = $this->loadConfiguration();
+        $workingDir = $this->getWorkingDir($input->getOption('working-dir'));
+        $config = $this->loadConfiguration($workingDir);
         $globalParameters = $config['parameters'];
         $markdownOptions = array(
             Markdown::ENABLE_PHP_EVAL => $input->getOption('enable-php-eval'),
-            Markdown::WORKING_DIR => $cwd,
+            Markdown::WORKING_DIR => $workingDir,
         );
         $generatedFilePaths = array();
 
@@ -70,13 +71,41 @@ class GenerateCommand extends Command
     }
 
     /**
+     * Check and get the working directory
+     *
+     * @param string $workingDir
+     *
+     * @return string
+     */
+    private function getWorkingDir($workingDir)
+    {
+        $workingDir = str_replace('\\', '/', $workingDir);
+        $workingDir = trim($workingDir, ' /');
+        $cwd = getcwd();
+
+        if (file_exists($workingDir)) {
+            return realpath($workingDir);
+        }
+
+        $workingDir = $cwd.'/'.$workingDir;
+
+        if (file_exists($workingDir)) {
+            return realpath($workingDir);
+        }
+
+        return $cwd;
+    }
+
+    /**
      * Load Nautilus configuration
+     *
+     * @param string $workingDir
      *
      * @return array
      */
-    private function loadConfiguration()
+    private function loadConfiguration($workingDir)
     {
-        $configFilePath = $this->getConfigFilePath();
+        $configFilePath = $this->getConfigFilePath($workingDir);
 
         if (!file_exists($configFilePath)) {
             throw new InvalidArgumentException('nautilus.json not found!');
@@ -166,11 +195,13 @@ class GenerateCommand extends Command
     }
 
     /**
+     * @param string $workingDir
+     *
      * @return string
      */
-    private function getConfigFilePath()
+    private function getConfigFilePath($workingDir)
     {
-        return getcwd().'/'.static::CONFIG_FILENAME;
+        return $workingDir.'/'.static::CONFIG_FILENAME;
     }
 
     /**
