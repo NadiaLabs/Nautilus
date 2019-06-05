@@ -16,7 +16,7 @@ Encore
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if you JavaScript imports CSS.
      */
-    .addEntry('index', __dirname+'/themes/default/assets/index.scss')
+    .addEntry('index', __dirname+'/themes/default/assets/index.js')
 ;
 
 module.exports = Encore.getWebpackConfig();

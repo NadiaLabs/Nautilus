@@ -4,3 +4,104 @@ $paragraph-margin-bottom: 0.6rem;
 
 @import "~bootstrap/scss/bootstrap";
 @import "~highlightjs/styles/monokai-sublime.css";
+
+//body {
+//    font-family: "PT Serif","Helvetica Neue",Arial,"Microsoft JhengHei",sans-serif;
+//}
+
+#document-summary {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 300px;
+    color: #364149;
+    background: #fafafa;
+    border-right: 1px solid rgba(0,0,0,.07);
+    overflow-y: auto;
+    padding: 10px 0 0 0;
+}
+.document-summary-header {
+    padding: 0 15px;
+}
+.document-summary-header small {
+    font-size: 0.8em;
+}
+.document-summary-title {
+    font-size: 1.5em;
+}
+.document-summary-title a {
+    color: #364149;
+    text-decoration: none;
+}
+.document-summary-indexes a, .document-summary-indexes a:visited {
+    color: #364149;
+}
+.document-summary-indexes a:hover, .document-summary-indexes a.active {
+    background: #000;
+    color: #FFF;
+}
+.document-summary-indexes .nav-link p {
+    margin-bottom: 0;
+}
+
+#document-body {
+    margin-left: 300px;
+}
+
+.document-contents {
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.document-content {
+    margin: 4em 0;
+}
+.document-content:first-child {
+    margin-top: 0;
+}
+
+h1.document-content-header {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+}
+
+.header-indent-1 {
+    padding-left: 2rem;
+}
+.header-indent-2 {
+    padding-left: 3rem;
+}
+.header-indent-3 {
+    padding-left: 4rem;
+}
+.header-indent-4 {
+    padding-left: 5rem;
+}
+.header-indent-5 {
+    padding-left: 6rem;
+}
+.header-indent-6 {
+    padding-left: 7rem;
+}
+
+.document-content-body .h1, .document-content-body h1,
+.document-content-body .h2, .document-content-body h2,
+.document-content-body .h3, .document-content-body h3,
+.document-content-body .h4, .document-content-body h4,
+.document-content-body .h5, .document-content-body h5,
+.document-content-body .h6, .document-content-body h6 {
+    margin-bottom: 1.25rem;
+    margin-top: 2.25rem;
+    border-left: solid black 5px;
+    padding-left: 0.8rem;
+    /*padding-bottom: 5px;*/
+    line-height: 1.25em;
+}
+
+.code-block {
+    margin-bottom: 1rem;
+    line-height: 1rem;
+}
