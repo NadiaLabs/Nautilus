@@ -5,7 +5,7 @@
         "tar": "^4.4"
     },
     "devDependencies": {
-        "@symfony/webpack-encore": "^0.27",
+        "@symfony/webpack-encore": "^4.1",
         "node-sass": "^4.12",
         "sass-loader": "^7.1",
         "webpack-notifier": "^1.6"
